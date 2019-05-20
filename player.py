@@ -1,11 +1,11 @@
 
 class Player:
-    VERSION = "1.10"
+    VERSION = "1.11"
 
     def betRequest(self, game_state):
         try:
-            AllIn = game_state["players"]["in_action"]["stack"]
-            simpleRaise(game_state["current_buy_in"], game_state["players"]["in_action"]["bet"], game_state["minimum_raise"])
+            AllIn = game_state["players"][game_state["in_action"]]["stack"]
+            simpleRaise(game_state["current_buy_in"], game_state["players"][game_state["in_action"]]["bet"], game_state["minimum_raise"])
 
             cardsInPlay = getCardsInPlay(game_state)
             cardsInHand = getCardsInHand(game_state)
@@ -37,7 +37,7 @@ class Player:
         except:
             print("---error3")
 
-        return game_state["current_buy_in"] - game_state["players"][game_state["in_action"]]["bet"]
+        return bet_size
 
     def showdown(self, game_state):
         pass
@@ -61,7 +61,7 @@ def getCardsInPlay(game_state):
 
 
 def getCardsInHand(game_state):
-    cards = game_state["players"]["in_action"]["hole_cards"]
+    cards = game_state["players"][game_state["in_action"]]["hole_cards"]
     return convertCards(cards)
 
 cardValues = dict(
