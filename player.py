@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.4"
+    VERSION = "1.5"
 
     def betRequest(self, game_state):
 
@@ -10,7 +10,11 @@ class Player:
         cardsInPlay = getCardsInPlay(game_state)
         cardsInHand = getCardsInHand(game_state)
 
-        bet_size = game_state["minimum_raise"]
+        bet_size = 0
+        minimum_raise = game_state["current_buy_in"] - game_state["players"]["in_action"]["bet"] + game_state["minimum_raise"]
+
+        if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
+            bet_size = minimum_raise*2
 
         if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
             bet_size = simpleRaise(game_state["current_buy_in"], game_state["players"]["in_action"]["bet"], game_state["minimum_raise"])
