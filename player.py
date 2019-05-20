@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.18"
+    VERSION = "1.19"
 
     def betRequest(self, game_state):
         bet_size = 20
@@ -13,6 +13,8 @@ class Player:
             cardsInHand = getCardsInHand(game_state)
 
             minimum_raise = game_state["current_buy_in"] + game_state["minimum_raise"]
+            if game_state["players"][game_state["in_action"]]["bet"] > bet_size:
+                return 0
 
             if isPreFlop(game_state):
                 if cardsInHand[0]["rank"] > cardsInHand[1]["rank"]:
@@ -31,7 +33,7 @@ class Player:
             try:
                 if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
                     bet_size = game_state["current_buy_in"]/20
-                if len(cardsInPlay)<3:
+                if len(cardsInPlay) < 3:
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
                         bet_size = minimum_raise
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
@@ -124,6 +126,7 @@ def countPairs(game_state):
         if cardsInHand[0]["rank"] == card["rank"] or cardsInHand[1]["rank"] == card["rank"]:
             pairs += 1
     return pairs
+
 
 def isFlush(game_state):
     all_cards = getCardsInPlay(game_state)
