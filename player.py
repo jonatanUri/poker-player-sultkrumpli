@@ -37,8 +37,11 @@ class Player:
             except:
                 print("---error3")
 
+            if checkStraight(cardsInPlay):
+                bet_size = AllIn
+
             if countPairs(game_state) >= 2:
-                    bet_size = AllIn
+                bet_size = AllIn
         finally:
             return bet_size
 
@@ -122,3 +125,33 @@ def isFlush(game_state):
         return True
     else:
         return False
+
+def checkStraight(cards_in_play):
+    hand = cards_in_play[0:2]
+    table = cards_in_play[1:]
+    reverse_cards = cards_in_play
+    reverse_cards.sort(reverse=True)
+    cards_in_play.sort()
+
+    count = 0
+    for i, card in enumerate(cards_in_play):
+        if i+1 > len(cards_in_play):
+            break
+        if card["rank"] < cards_in_play[i+1]["rank"] and card["rank"]-cards_in_play[i+1]["rank"] == -1:
+            count += 1
+            continue
+        if i == 4 or count == 4:
+            if hand[0]["rank"] in cards_in_play["rank"] or hand[1]["rank"] in cards_in_play["rank"]:
+                return True
+    count = 0
+    for i, card in enumerate(reverse_cards):
+        if i+1 > len(cards_in_play):
+            break
+        if card["rank"] > cards_in_play[i+1]["rank"] and card["rank"]-cards_in_play[i+1]["rank"] == 1:
+            count += 1
+            continue
+        if i == 4 or count == 4:
+            if hand[0]["rank"] in cards_in_play["rank"] or hand[1]["rank"] in cards_in_play["rank"]:
+                return True
+
+    return False
