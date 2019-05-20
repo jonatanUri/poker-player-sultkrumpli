@@ -134,7 +134,8 @@ def isFlush(game_state):
     else:
         return False
 
-def checkStraight(cards_in_play):
+
+def isStraight(cards_in_play):
     hand = cards_in_play[0:2]
     table = cards_in_play[1:]
     reverse_cards = cards_in_play
