@@ -3,43 +3,44 @@ class Player:
     VERSION = "1.15"
 
     def betRequest(self, game_state):
-
-        AllIn = game_state["players"][game_state["in_action"]]["stack"]
-        simpleRaise(game_state["current_buy_in"], game_state["players"][game_state["in_action"]]["bet"], game_state["minimum_raise"])
-
-        cardsInPlay = getCardsInPlay(game_state)
-        cardsInHand = getCardsInHand(game_state)
-
-        bet_size = 10
-        minimum_raise = game_state["current_buy_in"] + game_state["minimum_raise"]
-
-        if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
-            return 0
-        elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
-            return 0
+        bet_size = 20
 
         try:
-            if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
-                bet_size = game_state["current_buy_in"]
-            if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
-                bet_size = minimum_raise
-            if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
-                bet_size += minimum_raise
-            if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
-                # bet_size = bet_size
-                pass
-            if countPairs(game_state) == 1:
-                bet_size += game_state["players"][game_state["in_action"]]["stack"]/8
+            AllIn = game_state["players"][game_state["in_action"]]["stack"]
+            simpleRaise(game_state["current_buy_in"], game_state["players"][game_state["in_action"]]["bet"], game_state["minimum_raise"])
 
-            if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
-                bet_size += minimum_raise
-        except:
-            print("---error3")
+            cardsInPlay = getCardsInPlay(game_state)
+            cardsInHand = getCardsInHand(game_state)
 
-        if countPairs(game_state) >= 2:
-                bet_size = AllIn
+            minimum_raise = game_state["current_buy_in"] + game_state["minimum_raise"]
 
-        return bet_size
+            if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
+                return 0
+            elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
+                return 0
+
+            try:
+                if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
+                    bet_size = game_state["current_buy_in"]
+                if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
+                    bet_size = minimum_raise
+                if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
+                    bet_size += minimum_raise
+                if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
+                    # bet_size = bet_size
+                    pass
+                if countPairs(game_state) == 1:
+                    bet_size += game_state["players"][game_state["in_action"]]["stack"]/8
+
+                if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
+                    bet_size += minimum_raise
+            except:
+                print("---error3")
+
+            if countPairs(game_state) >= 2:
+                    bet_size = AllIn
+        finally:
+            return bet_size
 
     def showdown(self, game_state):
         pass
