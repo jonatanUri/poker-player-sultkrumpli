@@ -3,7 +3,7 @@ class Player:
     VERSION = "1.19"
 
     def betRequest(self, game_state):
-        bet_size = game_state["players"][game_state["in_action"]]["small_blind"] * 2
+        bet_size = 20
 
         try:
             AllIn = game_state["players"][game_state["in_action"]]["stack"]
