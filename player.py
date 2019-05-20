@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.16"
+    VERSION = "1.18"
 
     def betRequest(self, game_state):
         bet_size = 20
@@ -45,7 +45,7 @@ class Player:
             except:
                 print("---error3")
 
-            if checkStraight(cardsInPlay):
+            if isStraight(cardsInPlay):
                 bet_size = AllIn
 
             if countPairs(game_state) >= 2:
