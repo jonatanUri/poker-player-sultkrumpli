@@ -37,6 +37,10 @@ class Player:
         except:
             print("---error3")
 
+        if pairOnTable(game_state) != None:
+            if pairOnTable(game_state) == cardsInHand[0]["rank"] or pairOnTable(game_state) == cardsInHand[1]["rank"]:
+                bet_size = AllIn
+
         return bet_size
 
     def showdown(self, game_state):
@@ -85,4 +89,12 @@ def convertCards(cards):
         else:
             card["rank"] = int(card["rank"])
     return cards
+
+def pairOnTable(game_state):
+    table = convertCards(game_state["community_cards"])
+    for i in range(len(table)):
+        for j in range(len(table)):
+            if table[i]["rank"] == table[j]["rank"] and i != j:
+                return table[i]["rank"]
+    return None
 
