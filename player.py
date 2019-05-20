@@ -1,27 +1,22 @@
 
 class Player:
-    VERSION = "1.12"
+    VERSION = "1.13"
 
     def betRequest(self, game_state):
-        try:
-            AllIn = game_state["players"][game_state["in_action"]]["stack"]
-            simpleRaise(game_state["current_buy_in"], game_state["players"][game_state["in_action"]]["bet"], game_state["minimum_raise"])
 
-            cardsInPlay = getCardsInPlay(game_state)
-            cardsInHand = getCardsInHand(game_state)
-        except:
-            print("---error1")
+        AllIn = game_state["players"][game_state["in_action"]]["stack"]
+        simpleRaise(game_state["current_buy_in"], game_state["players"][game_state["in_action"]]["bet"], game_state["minimum_raise"])
+
+        cardsInPlay = getCardsInPlay(game_state)
+        cardsInHand = getCardsInHand(game_state)
 
         bet_size = 10
         minimum_raise = game_state["current_buy_in"] + game_state["minimum_raise"]
 
-        try:
-            if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
-                return 0
-            elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
-                return 0
-        except:
-            print("---error2")
+        if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
+            return 0
+        elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
+            return 0
 
         try:
             if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
@@ -37,8 +32,7 @@ class Player:
         except:
             print("---error3")
 
-        if pairOnTable(game_state) != None:
-            if pairOnTable(game_state) == cardsInHand[0]["rank"] or pairOnTable(game_state) == cardsInHand[1]["rank"]:
+        if countPairs(game_state) >= 3:
                 bet_size = AllIn
 
         return bet_size
@@ -98,3 +92,11 @@ def pairOnTable(game_state):
                 return table[i]["rank"]
     return None
 
+def countPairs(game_state):
+    pairs = 0
+    table = convertCards(game_state["community_cards"])
+    cardsInHand = getCardsInHand(game_state)
+    for i in range(len(table)):
+        if cardsInHand[0]["rank"] == table[i]["rank"] or cardsInHand[1]["rank"] == table[i]["rank"]:
+            pairs += 1
+    return pairs
