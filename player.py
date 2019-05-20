@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.13"
+    VERSION = "1.14"
 
     def betRequest(self, game_state):
 
@@ -32,7 +32,7 @@ class Player:
         except:
             print("---error3")
 
-        if countPairs(game_state) >= 3:
+        if countPairs(game_state) >= 2:
                 bet_size = AllIn
 
         return bet_size
