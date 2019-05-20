@@ -14,6 +14,14 @@ class Player:
 
             minimum_raise = game_state["current_buy_in"] + game_state["minimum_raise"]
 
+            if isPreFlop(game_state):
+                if cardsInHand[0]["rank"] > cardsInHand[1]["rank"]:
+                    if cardsInHand[0]["rank"] - cardsInHand[1]["rank"] > 3:
+                        return 0
+                if cardsInHand[0]["rank"] < cardsInHand[1]["rank"]:
+                    if cardsInHand[1]["rank"] - cardsInHand[0]["rank"] > 3:
+                        return 0
+
             if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
                 return 0
             elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
@@ -154,4 +162,10 @@ def checkStraight(cards_in_play):
             if hand[0]["rank"] in cards_in_play["rank"] or hand[1]["rank"] in cards_in_play["rank"]:
                 return True
 
+    return False
+
+
+def isPreFlop(game_state):
+    if len(convertCards(game_state["community_cards"])) == 0:
+        return True
     return False
