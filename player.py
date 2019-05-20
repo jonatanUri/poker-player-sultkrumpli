@@ -27,17 +27,21 @@ def simpleRaise(current_buy_in, bet, minimum_raise):
 
 
 def getCardsInPlay(game_state):
-    hand = game_state["players"]["in_action"]["hole_cards"]
-    table = game_state["community_cards"]
+    hand = getCardsInHand(game_state)
+    table = convertCards(game_state["community_cards"])
+
     all = []
     for card in hand:
         all.append(card)
     for card in table:
         all.append(card)
+
     return all
 
+
 def getCardsInHand(game_state):
-    return game_state["players"]["in_action"]["hole_cards"]
+    cards = game_state["players"]["in_action"]["hole_cards"]
+    return convertCards(cards)
 
 cardValues = dict(
     J=11,
@@ -45,3 +49,18 @@ cardValues = dict(
     K=13,
     A=14
 )
+
+
+def convertCards(cards):
+    for card in cards:
+        if card["rank"] == "J":
+            card["rank"] = 11
+        elif card["rank"] == "Q":
+            card["rank"] = 12
+        elif card["rank"] == "K":
+            card["rank"] = 13
+        elif card["rank"] == "A":
+            card["rank"] = 14
+        else:
+            card["rank"] = int(card["rank"])
+    return cards
