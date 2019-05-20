@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.9"
+    VERSION = "1.10"
 
     def betRequest(self, game_state):
         try:
@@ -37,7 +37,7 @@ class Player:
         except:
             print("---error3")
 
-        return game_state["current_buy_in"] - game_state["players"]["in_action"]["bet"]
+        return game_state["current_buy_in"] - game_state["players"][game_state["in_action"]]["bet"]
 
     def showdown(self, game_state):
         pass
