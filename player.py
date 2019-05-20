@@ -13,6 +13,11 @@ class Player:
         bet_size = 0
         minimum_raise = game_state["current_buy_in"] - game_state["players"]["in_action"]["bet"] + game_state["minimum_raise"]
 
+        if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
+            return 0
+        elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
+            return 0
+
         if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
             bet_size = minimum_raise*2
 
