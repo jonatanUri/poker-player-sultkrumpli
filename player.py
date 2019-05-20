@@ -22,7 +22,7 @@ class Player:
             try:
                 if len(cardsInPlay)<3:
                     if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
-                        bet_size = game_state["current_buy_in"]
+                        bet_size = game_state["current_buy_in"]/20
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
                         bet_size = minimum_raise
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
