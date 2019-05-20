@@ -70,13 +70,6 @@ def getCardsInHand(game_state):
     cards = game_state["players"][game_state["in_action"]]["hole_cards"]
     return convertCards(cards)
 
-cardValues = dict(
-    J=11,
-    Q=12,
-    K=13,
-    A=14
-)
-
 
 def convertCards(cards):
     for card in cards:
@@ -126,7 +119,8 @@ def isFlush(game_state):
     else:
         return False
 
-def checkStraight(cards_in_play):
+
+def isStraight(cards_in_play):
     hand = cards_in_play[0:2]
     table = cards_in_play[1:]
     reverse_cards = cards_in_play
@@ -155,3 +149,5 @@ def checkStraight(cards_in_play):
                 return True
 
     return False
+
+
