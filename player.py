@@ -1,6 +1,6 @@
 
 class Player:
-    VERSION = "1.15"
+    VERSION = "1.16"
 
     def betRequest(self, game_state):
         bet_size = 20
@@ -20,20 +20,20 @@ class Player:
                 return 0
 
             try:
-                if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
-                    bet_size = game_state["current_buy_in"]
-                if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
-                    bet_size = minimum_raise
-                if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
-                    bet_size += minimum_raise
-                if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
-                    # bet_size = bet_size
-                    pass
-                if countPairs(game_state) == 1:
-                    bet_size += game_state["players"][game_state["in_action"]]["stack"]/8
-
-                if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
-                    bet_size += minimum_raise
+                if len(cardsInPlay)<3:
+                    if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
+                        bet_size = game_state["current_buy_in"]
+                    if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
+                        bet_size = minimum_raise
+                    if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
+                        bet_size += minimum_raise
+                    if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
+                        # bet_size = bet_size
+                        pass
+                    if countPairs(game_state) == 1:
+                        bet_size += game_state["players"][game_state["in_action"]]["stack"]/8
+                    if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
+                        bet_size += minimum_raise
             except:
                 print("---error3")
 
@@ -89,6 +89,7 @@ def convertCards(cards):
             card["rank"] = int(card["rank"])
     return cards
 
+
 def pairOnTable(game_state):
     table = convertCards(game_state["community_cards"])
     for i in range(len(table)):
@@ -101,7 +102,23 @@ def countPairs(game_state):
     pairs = 0
     table = convertCards(game_state["community_cards"])
     cardsInHand = getCardsInHand(game_state)
-    for i in range(len(table)):
-        if cardsInHand[0]["rank"] == table[i]["rank"] or cardsInHand[1]["rank"] == table[i]["rank"]:
+    for card in table:
+        if cardsInHand[0]["rank"] == card["rank"] or cardsInHand[1]["rank"] == card["rank"]:
             pairs += 1
     return pairs
+
+def isFlush(game_state):
+    all_cards = getCardsInPlay(game_state)
+    first_card_suit = all_cards[0]["suit"]
+    flush = []
+    for card in all_cards:
+        if card["suit"] == first_card_suit:
+            flush.append(card["suit"])
+    if len(flush) == 3:
+        return "chance for flush"
+    elif len(flush) == 3:
+        return "greater chance for flush"
+    elif len(flush) == 5:
+        return True
+    else:
+        return False
