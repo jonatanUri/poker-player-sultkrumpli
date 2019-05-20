@@ -60,10 +60,9 @@ class Player:
             elif countPairs(game_state)>2 and isFlush(game_state) and isStraight(cardsInPlay):
                 return game_state["players"][game_state["in_action"]]["stack"]/2
 
-
-
         finally:
-            return bet_size
+            pass
+        return bet_size
 
     def showdown(self, game_state):
         pass
