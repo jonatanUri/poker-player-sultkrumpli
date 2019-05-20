@@ -16,7 +16,7 @@ class Player:
         if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
             return simpleRaise(game_state["current_buy_in"], game_state["players"]["in_action"]["bet"], game_state["minimum_raise"])
 
-        return 0
+        return game_state["minimum_raise"]
 
     def showdown(self, game_state):
         pass
