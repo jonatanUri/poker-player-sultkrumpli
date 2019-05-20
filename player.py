@@ -31,16 +31,14 @@ class Player:
 
 
             try:
-                if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
+                if game_state["current_buy_in"] <= game_state["players"][game_state["in_action"]]["stack"]/20:
                     bet_size = game_state["current_buy_in"]/20
                 if len(cardsInPlay) < 3:
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 18:
                         bet_size = minimum_raise
                     if cardsInHand[0]["rank"] + cardsInHand[1]["rank"] > 20:
                         bet_size += minimum_raise
-                    if cardsInHand[0]["suit"] == cardsInHand[1]["suit"]:
-                        # bet_size = bet_size
-                        pass
+
                     if countPairs(game_state) == 1:
                         bet_size += game_state["players"][game_state["in_action"]]["stack"]/8
                     if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
@@ -55,9 +53,14 @@ class Player:
                 bet_size = AllIn
 
             if cardsInHand[0]["rank"] < 9 or cardsInHand[1]["rank"] < 9 and game_state["current_buy_in"] > game_state["players"][game_state["in_action"]]["stack"]/2 and countPairs(game_state)<2 and not isFlush(game_state) and not isStraight(cardsInPlay):
-                return 0
+                if game_state["current_buy_in"] - game_state["players"][game_state["in_action"]]["bet"] > 15:
+                    return game_state["current_buy_in"] - game_state["players"][game_state["in_action"]]["bet"]
+                else:
+                    return 0
             elif countPairs(game_state)>2 and isFlush(game_state) and isStraight(cardsInPlay):
                 return game_state["players"][game_state["in_action"]]["stack"]/2
+
+
 
         finally:
             return bet_size
