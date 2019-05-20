@@ -27,6 +27,7 @@ class Player:
             elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
                 return 0
 
+
             try:
                 if game_state["current_buy_in"] < game_state["players"][game_state["in_action"]]["stack"]/20:
                     bet_size = game_state["current_buy_in"]/20
@@ -50,6 +51,12 @@ class Player:
 
             if countPairs(game_state) >= 2:
                 bet_size = AllIn
+
+            if cardsInHand[0]["rank"] < 9 or cardsInHand[1]["rank"] < 9 and game_state["current_buy_in"] > game_state["players"][game_state["in_action"]]["stack"]/2 and countPairs(game_state)<2 and not isFlush(game_state) and not isStraight(cardsInPlay):
+                return 0
+            elif countPairs(game_state)>2 and isFlush(game_state) and isStraight(cardsInPlay):
+                return game_state["players"][game_state["in_action"]]["stack"]/2
+
         finally:
             return bet_size
 
@@ -127,7 +134,7 @@ def isFlush(game_state):
             flush.append(card["suit"])
     if len(flush) == 3:
         return "chance for flush"
-    elif len(flush) == 3:
+    elif len(flush) == 4:
         return "greater chance for flush"
     elif len(flush) == 5:
         return True
@@ -170,3 +177,11 @@ def isPreFlop(game_state):
     if len(convertCards(game_state["community_cards"])) == 0:
         return True
     return False
+
+
+def isPairInHand(cardsInHand):
+    if cardsInHand[0]["rank"] == cardsInHand[1]["rank"]:
+        return True
+    return False
+
+
