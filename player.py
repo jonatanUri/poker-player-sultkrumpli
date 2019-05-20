@@ -16,18 +16,18 @@ class Player:
             if game_state["players"][game_state["in_action"]]["bet"] > bet_size:
                 return 0
 
-            if isPreFlop(game_state):
-                if cardsInHand[0]["rank"] > cardsInHand[1]["rank"]:
-                    if cardsInHand[0]["rank"] - cardsInHand[1]["rank"] > 3:
-                        return 0
-                if cardsInHand[0]["rank"] < cardsInHand[1]["rank"]:
-                    if cardsInHand[1]["rank"] - cardsInHand[0]["rank"] > 3:
-                        return 0
-
-            if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
-                return 0
-            elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
-                return 0
+            # if isPreFlop(game_state):
+            #     if cardsInHand[0]["rank"] > cardsInHand[1]["rank"]:
+            #         if cardsInHand[0]["rank"] - cardsInHand[1]["rank"] > 3:
+            #             return 0
+            #     if cardsInHand[0]["rank"] < cardsInHand[1]["rank"]:
+            #         if cardsInHand[1]["rank"] - cardsInHand[0]["rank"] > 3:
+            #             return 0
+            #
+            # if cardsInHand[0]["rank"] == 7 and cardsInHand[1]["rank"] == 2:
+            #     return 0
+            # elif cardsInHand[0]["rank"] == 2 and cardsInHand[1]["rank"] == 7:
+            #     return 0
 
 
             try:
